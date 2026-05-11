@@ -19,40 +19,40 @@ import re                            # Validación de formatos (correo, teléfon
 # ==================================================
 class ErrorSistema(Exception):
     """Excepción base: todos los errores del sistema heredan de esta clase"""
-    def _init_(self, mensaje: str, codigo: int = 1000):
+    def ___init___(self, mensaje: str, codigo: int = 1000):
         self.mensaje = mensaje  # Texto explicativo del error
         self.codigo = codigo    # Código único para identificar el fallo
-        super()._init_(f"[Código {codigo}] {mensaje}")
+        super().__init__(f"[Código {codigo}] {mensaje}")
 
 
 class DatoInvalidoError(ErrorSistema):
     """Se lanza cuando un dato no cumple el formato o regla establecida"""
-    def _init_(self, mensaje: str):
-        super()._init_(mensaje, codigo=2001)
+    def __init__(self, mensaje: str):
+        super().__init__(mensaje, codigo=2001)
 
 
 class ParametroFaltanteError(ErrorSistema):
     """Falta información obligatoria para realizar la operación"""
-    def _init_(self, campo: str):
-        super()._init_(f"Falta el dato obligatorio: {campo}", codigo=2002)
+    def __init__(self, campo: str):
+        super().__init__(f"Falta el dato obligatorio: {campo}", codigo=2002)
 
 
 class OperacionNoPermitidaError(ErrorSistema):
     """La acción solicitada no se puede hacer en el estado actual"""
-    def _init_(self, accion: str):
-        super()._init_(f"Operación no permitida: {accion}", codigo=3001)
+    def __init__(self, accion: str):
+        super().__init__(f"Operación no permitida: {accion}", codigo=3001)
 
 
 class ServicioNoDisponibleError(ErrorSistema):
     """El servicio solicitado está ocupado o no existe"""
-    def _init_(self, nombre_servicio: str):
-        super()._init_(f"Servicio no disponible: {nombre_servicio}", codigo=3002)
+    def __init__(self, nombre_servicio: str):
+        super().__init__(f"Servicio no disponible: {nombre_servicio}", codigo=3002)
 
 
 class ReservaInvalidaError(ErrorSistema):
     """La reserva tiene datos inconsistentes o viola reglas de negocio"""
-    def _init_(self, motivo: str):
-        super()._init_(f"Reserva inválida: {motivo}", codigo=4001)
+    def __init__(self, motivo: str):
+        super().__init__(f"Reserva inválida: {motivo}", codigo=4001)
 
 # ==================================================
 # 2. CONFIGURACIÓN DEL SISTEMA DE LOGS
@@ -85,7 +85,7 @@ class EntidadBase(ABC):
 
 class ServicioBase(ABC):
     """Clase base para TODOS los servicios que ofrece la empresa"""
-    def _init_(self, id_servicio: str, nombre: str, precio_base: float, disponible: bool = True):
+    def __init__(self, id_servicio: str, nombre: str, precio_base: float, disponible: bool = True):
         # Atributos protegidos: accesibles solo para clases hijas
         self._id_servicio = id_servicio.strip()
         self._nombre = nombre.strip()
@@ -115,7 +115,7 @@ class ServicioBase(ABC):
 # Datos privados: solo se modifican/leen por métodos
 # ==================================================
 class Cliente(EntidadBase):
-    def _init_(self, id_cliente: str, nombre: str, correo: str, telefono: str):
+    def __init__(self, id_cliente: str, nombre: str, correo: str, telefono: str):
         # ATRIBUTOS PRIVADOS: (__nombre) NO se ven ni cambian desde fuera
         self.__id_cliente = id_cliente.strip()
         self.__nombre = nombre.strip()
@@ -167,9 +167,9 @@ class Cliente(EntidadBase):
 # ==================================================
 class ReservaSala(ServicioBase):
     """Servicio 1: Reserva de salas de reuniones"""
-    def _init_(self, id_servicio, nombre, precio_base, capacidad: int):
+    def __init__(self, id_servicio, nombre, precio_base, capacidad: int):
         # Llamada al constructor de la clase padre (HERENCIA)
-        super()._init_(id_servicio, nombre, precio_base)
+        super().__init__(id_servicio, nombre, precio_base)
         # Atributo exclusivo de este servicio
         self.__capacidad = capacidad
 
@@ -189,8 +189,8 @@ class ReservaSala(ServicioBase):
 
 class AlquilerEquipo(ServicioBase):
     """Servicio 2: Alquiler de equipos tecnológicos"""
-    def _init_(self, id_servicio, nombre, precio_base, tipo_equipo: str):
-        super()._init_(id_servicio, nombre, precio_base)
+    def __init__(self, id_servicio, nombre, precio_base, tipo_equipo: str):
+        super().__init__(id_servicio, nombre, precio_base)
         self.__tipo_equipo = tipo_equipo
 
     # ---------------------------
@@ -208,8 +208,8 @@ class AlquilerEquipo(ServicioBase):
 
 class AsesoriaEspecializada(ServicioBase):
     """Servicio 3: Asesoría profesional especializada"""
-    def _init_(self, id_servicio, nombre, precio_base, especialista: str):
-        super()._init_(id_servicio, nombre, precio_base)
+    def __init__(self, id_servicio, nombre, precio_base, especialista: str):
+        super().__init__(id_servicio, nombre, precio_base)
         self.__especialista = especialista
 
     # ---------------------------
@@ -233,7 +233,7 @@ class Reserva:
     """Gestiona todo el ciclo de vida de una reserva"""
     ESTADOS_PERMITIDOS = ["PENDIENTE", "CONFIRMADA", "CANCELADA", "FINALIZADA"]
 
-    def _init_(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
+    def __init__(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
                  fecha: datetime, duracion: float):
         # Atributos privados
         self.__id_reserva = id_reserva.strip()
