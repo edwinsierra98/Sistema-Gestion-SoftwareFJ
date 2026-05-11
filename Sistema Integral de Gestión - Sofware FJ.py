@@ -203,7 +203,7 @@ class AlquilerEquipo(ServicioBase):
         return round(costo * (1 + impuesto), 2)
 
     def describir(self) -> str:
-        return f"💻 Servicio: {self.nombre} | Tipo: {self._tipo_equipo} | Precio base: ${self._precio_base}"
+        return f"💻 Servicio: {self._nombre} | Tipo: {self.__tipo_equipo} | Precio base: ${self._precio_base}"
 
 
 class AsesoriaEspecializada(ServicioBase):
