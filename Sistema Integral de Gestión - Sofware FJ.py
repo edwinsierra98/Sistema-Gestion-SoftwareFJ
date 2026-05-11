@@ -184,7 +184,7 @@ class ReservaSala(ServicioBase):
         return round(costo * (1 - descuento), 2)
 
     def describir(self) -> str:
-        return f"🏢 Servicio: {self.nombre} | Capacidad: {self._capacidad} pers. | Precio base: ${self._precio_base}"
+        return f"🏢 Servicio: {self._nombre} | Capacidad: {self.__capacidad} pers. | Precio base: ${self._precio_base}"
 
 
 class AlquilerEquipo(ServicioBase):
