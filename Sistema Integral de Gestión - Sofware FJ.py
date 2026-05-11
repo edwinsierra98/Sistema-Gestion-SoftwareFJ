@@ -19,7 +19,7 @@ import re                            # Validación de formatos (correo, teléfon
 # ==================================================
 class ErrorSistema(Exception):
     """Excepción base: todos los errores del sistema heredan de esta clase"""
-    def ___init___(self, mensaje: str, codigo: int = 1000):
+    def __init__(self, mensaje: str, codigo: int = 1000):
         self.mensaje = mensaje  # Texto explicativo del error
         self.codigo = codigo    # Código único para identificar el fallo
         super().__init__(f"[Código {codigo}] {mensaje}")
