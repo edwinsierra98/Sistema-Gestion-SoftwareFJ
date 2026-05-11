@@ -159,7 +159,7 @@ class Cliente(EntidadBase):
         return True
 
     def __str__(self) -> str:
-        return f"👤 Cliente: {self._nombre} | ID: {self.id_cliente} | Correo: {self._correo}"
+        return f"👤 Cliente: {self.__nombre} | ID: {self.id_cliente} | Correo: {self.__correo}"
 
 # ==================================================
 # 5. SERVICIOS ESPECIALIZADOS (HERENCIA + POLIMORFISMO)
