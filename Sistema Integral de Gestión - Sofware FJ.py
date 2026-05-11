@@ -223,7 +223,7 @@ class AsesoriaEspecializada(ServicioBase):
         return round(costo, 2)
 
     def describir(self) -> str:
-        return f"👨‍🏫 Servicio: {self.nombre} | Especialista: {self._especialista} | Precio base: ${self._precio_base}"
+        return f"👨‍🏫 Servicio: {self._nombre} | Especialista: {self.__especialista} | Precio base: ${self._precio_base}"
 
 # ==================================================
 # 6. CLASE RESERVA (LÓGICA DE NEGOCIO)
