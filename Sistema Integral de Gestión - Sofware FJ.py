@@ -78,7 +78,7 @@ class EntidadBase(ABC):
         pass
 
     @abstractmethod
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         """Toda entidad debe tener una representación en texto"""
         pass
 
@@ -158,7 +158,7 @@ class Cliente(EntidadBase):
         if not re.match(r'^\+?\d{7,15}$', self.__telefono): return False
         return True
 
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         return f"👤 Cliente: {self._nombre} | ID: {self.id_cliente} | Correo: {self._correo}"
 
 # ==================================================
