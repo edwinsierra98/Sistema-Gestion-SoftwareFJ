@@ -1,0 +1,6 @@
+11/05/2026 17:08:02 | ERROR | [Código 2001] Los datos del cliente no cumplen el formato requerido.
+11/05/2026 17:08:02 | INFO | Reserva R001 CONFIRMADA
+11/05/2026 17:08:02 | ERROR | [Código 4001] Reserva inválida: Datos inconsistentes o valores no permitidos
+11/05/2026 17:08:02 | ERROR | [Código 2001] Las horas deben ser mayor a cero
+11/05/2026 17:08:02 | INFO | Reserva R001 CANCELADA
+11/05/2026 17:08:02 | ERROR | [Código 2001] Los datos del cliente no cumplen el formato requerido.

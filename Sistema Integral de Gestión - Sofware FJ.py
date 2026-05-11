@@ -283,8 +283,24 @@ class Reserva:
     def __str__(self):
         return f"Reserva {self.__id_reserva} | Estado: {self.__estado}"
 
-
+# ==================================================
+# PRUEBAS DEL SISTEMA - SIMULACIÓN DE OPERACIONES
+# ==================================================
+# ==================================================
+# Las siguientes pruebas permiten verificar:
+# - Validación de clientes
+# - Creación de servicios
+# - Manejo de reservas
+# - Control de excepciones
+# - Registro de errores en logs
+# ==================================================
 if __name__ == "__main__":
+
+    print("===== INICIO DE PRUEBAS DEL SISTEMA =====")
+
+    # --------------------------------------------------
+    # OPERACIÓN 1 - Cliente válido
+    # --------------------------------------------------
     try:
         cliente1 = Cliente(
             "C001",
@@ -298,3 +314,150 @@ if __name__ == "__main__":
     except ErrorSistema as e:
         logging.error(e)
         print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 2 - Cliente inválido
+    # --------------------------------------------------
+    try:
+        cliente2 = Cliente(
+            "1",
+            "A",
+            "correo_invalido",
+            "123"
+        )
+        print(cliente2)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 3 - Crear servicio de sala
+    # --------------------------------------------------
+    try:
+        sala1 = ReservaSala(
+            "S001",
+            "Sala Principal",
+            100000,
+            20
+        )
+
+        print(sala1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 4 - Crear alquiler de equipo
+    # --------------------------------------------------
+    try:
+        equipo1 = AlquilerEquipo(
+            "E001",
+            "Laptop Gamer",
+            80000,
+            "Computador"
+        )
+
+        print(equipo1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 5 - Crear asesoría especializada
+    # --------------------------------------------------
+    try:
+        asesoria1 = AsesoriaEspecializada(
+            "A001",
+            "Asesoría Python",
+            120000,
+            "Ingeniero de Sistemas"
+        )
+
+        print(asesoria1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 6 - Reserva válida
+    # --------------------------------------------------
+    try:
+        reserva1 = Reserva(
+            "R001",
+            cliente1,
+            sala1,
+            datetime(2026, 6, 20, 10, 0),
+            2
+        )
+
+        reserva1.confirmar(horas=2)
+
+        print(reserva1)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 7 - Reserva con fecha inválida
+    # --------------------------------------------------
+    try:
+        reserva2 = Reserva(
+            "R002",
+            cliente1,
+            sala1,
+            datetime(2020, 1, 1, 10, 0),
+            2
+        )
+
+        print(reserva2)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 8 - Cálculo inválido
+    # --------------------------------------------------
+    try:
+        costo = sala1.calcular_costo(horas=-5)
+        print(costo)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 9 - Cancelar reserva
+    # --------------------------------------------------
+    try:
+        reserva1.cancelar()
+        print("Reserva cancelada correctamente")
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 10 - Error controlado con finally
+    # --------------------------------------------------
+    try:
+        cliente3 = Cliente(
+            "",
+            "",
+            "malcorreo",
+            "abc"
+        )
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    finally:
+        print("Finalización de operación con control de errores")
+
+    print("===== FIN DE PRUEBAS DEL SISTEMA =====")
