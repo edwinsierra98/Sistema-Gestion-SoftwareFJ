@@ -279,5 +279,3 @@ class Reserva:
         self.__estado = "CANCELADA"
         self.__servicio.cambiar_estado(True)
         logging.info(f"Reserva {self.__id_reserva} CANCELADA")
-
-    def
