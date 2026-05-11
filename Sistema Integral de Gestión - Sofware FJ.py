@@ -281,6 +281,20 @@ class Reserva:
         logging.info(f"Reserva {self.__id_reserva} CANCELADA")
     
     def __str__(self):
-    return f"Reserva {self.__id_reserva} | Estado: {self.__estado}"
+        return f"Reserva {self.__id_reserva} | Estado: {self.__estado}"
+
 
 if __name__ == "__main__":
+    try:
+        cliente1 = Cliente(
+            "C001",
+            "Sebastian",
+            "sebastian@gmail.com",
+            "+573001112233"
+        )
+
+        print(cliente1)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
