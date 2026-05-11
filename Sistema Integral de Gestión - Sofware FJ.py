@@ -267,7 +267,7 @@ class Reserva:
         """Confirma, calcula precio y marca servicio como ocupado"""
         if self.__estado != "PENDIENTE":
             raise OperacionNoPermitidaError(f"No se puede confirmar en estado: {self.__estado}")
-        self._costo_final = self._servicio.calcular_costo(**parametros_calculo)
+        self.__costo_final = self.__servicio.calcular_costo(**parametros_calculo)
         self.__estado = "CONFIRMADA"
         self.__servicio.cambiar_estado(False)
         logging.info(f"Reserva {self.__id_reserva} CONFIRMADA")
