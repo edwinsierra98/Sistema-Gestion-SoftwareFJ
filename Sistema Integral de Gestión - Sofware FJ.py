@@ -153,7 +153,7 @@ class Cliente(EntidadBase):
     def validar_datos(self) -> bool:
         """Reglas estrictas: longitud mínima, formato correo, teléfono"""
         if len(self.__id_cliente) < 3: return False
-        if len(self.__nombre) < 2: return Fals
+        if len(self.__nombre) < 2: return False
         if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', self.__correo): return False
         if not re.match(r'^\+?\d{7,15}$', self.__telefono): return False
         return True
