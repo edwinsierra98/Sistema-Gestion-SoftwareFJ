@@ -283,9 +283,6 @@ class Reserva:
     def __str__(self):
         return f"Reserva {self.__id_reserva} | Estado: {self.__estado}"
 
-<<<<<<< HEAD
-    def
-=======
 # ==================================================
 # PRUEBAS DEL SISTEMA - SIMULACIÓN DE OPERACIONES
 # ==================================================
@@ -464,4 +461,3 @@ if __name__ == "__main__":
         print("Finalización de operación con control de errores")
 
     print("===== FIN DE PRUEBAS DEL SISTEMA =====")
->>>>>>> 4a464ed00639660a6b6f525b2dd20b1cda579b83
