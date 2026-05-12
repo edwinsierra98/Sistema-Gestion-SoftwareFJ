@@ -19,40 +19,40 @@ import re                            # Validación de formatos (correo, teléfon
 # ==================================================
 class ErrorSistema(Exception):
     """Excepción base: todos los errores del sistema heredan de esta clase"""
-    def _init_(self, mensaje: str, codigo: int = 1000):
+    def __init__(self, mensaje: str, codigo: int = 1000):
         self.mensaje = mensaje  # Texto explicativo del error
         self.codigo = codigo    # Código único para identificar el fallo
-        super()._init_(f"[Código {codigo}] {mensaje}")
+        super().__init__(f"[Código {codigo}] {mensaje}")
 
 
 class DatoInvalidoError(ErrorSistema):
     """Se lanza cuando un dato no cumple el formato o regla establecida"""
-    def _init_(self, mensaje: str):
-        super()._init_(mensaje, codigo=2001)
+    def __init__(self, mensaje: str):
+        super().__init__(mensaje, codigo=2001)
 
 
 class ParametroFaltanteError(ErrorSistema):
     """Falta información obligatoria para realizar la operación"""
-    def _init_(self, campo: str):
-        super()._init_(f"Falta el dato obligatorio: {campo}", codigo=2002)
+    def __init__(self, campo: str):
+        super().__init__(f"Falta el dato obligatorio: {campo}", codigo=2002)
 
 
 class OperacionNoPermitidaError(ErrorSistema):
     """La acción solicitada no se puede hacer en el estado actual"""
-    def _init_(self, accion: str):
-        super()._init_(f"Operación no permitida: {accion}", codigo=3001)
+    def __init__(self, accion: str):
+        super().__init__(f"Operación no permitida: {accion}", codigo=3001)
 
 
 class ServicioNoDisponibleError(ErrorSistema):
     """El servicio solicitado está ocupado o no existe"""
-    def _init_(self, nombre_servicio: str):
-        super()._init_(f"Servicio no disponible: {nombre_servicio}", codigo=3002)
+    def __init__(self, nombre_servicio: str):
+        super().__init__(f"Servicio no disponible: {nombre_servicio}", codigo=3002)
 
 
 class ReservaInvalidaError(ErrorSistema):
     """La reserva tiene datos inconsistentes o viola reglas de negocio"""
-    def _init_(self, motivo: str):
-        super()._init_(f"Reserva inválida: {motivo}", codigo=4001)
+    def __init__(self, motivo: str):
+        super().__init__(f"Reserva inválida: {motivo}", codigo=4001)
 
 # ==================================================
 # 2. CONFIGURACIÓN DEL SISTEMA DE LOGS
@@ -78,14 +78,14 @@ class EntidadBase(ABC):
         pass
 
     @abstractmethod
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         """Toda entidad debe tener una representación en texto"""
         pass
 
 
 class ServicioBase(ABC):
     """Clase base para TODOS los servicios que ofrece la empresa"""
-    def _init_(self, id_servicio: str, nombre: str, precio_base: float, disponible: bool = True):
+    def __init__(self, id_servicio: str, nombre: str, precio_base: float, disponible: bool = True):
         # Atributos protegidos: accesibles solo para clases hijas
         self._id_servicio = id_servicio.strip()
         self._nombre = nombre.strip()
@@ -115,7 +115,7 @@ class ServicioBase(ABC):
 # Datos privados: solo se modifican/leen por métodos
 # ==================================================
 class Cliente(EntidadBase):
-    def _init_(self, id_cliente: str, nombre: str, correo: str, telefono: str):
+    def __init__(self, id_cliente: str, nombre: str, correo: str, telefono: str):
         # ATRIBUTOS PRIVADOS: (__nombre) NO se ven ni cambian desde fuera
         self.__id_cliente = id_cliente.strip()
         self.__nombre = nombre.strip()
@@ -158,8 +158,8 @@ class Cliente(EntidadBase):
         if not re.match(r'^\+?\d{7,15}$', self.__telefono): return False
         return True
 
-    def _str_(self) -> str:
-        return f"👤 Cliente: {self._nombre} | ID: {self.id_cliente} | Correo: {self._correo}"
+    def __str__(self) -> str:
+        return f"👤 Cliente: {self.__nombre} | ID: {self.id_cliente} | Correo: {self.__correo}"
 
 # ==================================================
 # 5. SERVICIOS ESPECIALIZADOS (HERENCIA + POLIMORFISMO)
@@ -167,9 +167,9 @@ class Cliente(EntidadBase):
 # ==================================================
 class ReservaSala(ServicioBase):
     """Servicio 1: Reserva de salas de reuniones"""
-    def _init_(self, id_servicio, nombre, precio_base, capacidad: int):
+    def __init__(self, id_servicio, nombre, precio_base, capacidad: int):
         # Llamada al constructor de la clase padre (HERENCIA)
-        super()._init_(id_servicio, nombre, precio_base)
+        super().__init__(id_servicio, nombre, precio_base)
         # Atributo exclusivo de este servicio
         self.__capacidad = capacidad
 
@@ -184,13 +184,13 @@ class ReservaSala(ServicioBase):
         return round(costo * (1 - descuento), 2)
 
     def describir(self) -> str:
-        return f"🏢 Servicio: {self.nombre} | Capacidad: {self._capacidad} pers. | Precio base: ${self._precio_base}"
+        return f"🏢 Servicio: {self._nombre} | Capacidad: {self.__capacidad} pers. | Precio base: ${self._precio_base}"
 
 
 class AlquilerEquipo(ServicioBase):
     """Servicio 2: Alquiler de equipos tecnológicos"""
-    def _init_(self, id_servicio, nombre, precio_base, tipo_equipo: str):
-        super()._init_(id_servicio, nombre, precio_base)
+    def __init__(self, id_servicio, nombre, precio_base, tipo_equipo: str):
+        super().__init__(id_servicio, nombre, precio_base)
         self.__tipo_equipo = tipo_equipo
 
     # ---------------------------
@@ -203,13 +203,13 @@ class AlquilerEquipo(ServicioBase):
         return round(costo * (1 + impuesto), 2)
 
     def describir(self) -> str:
-        return f"💻 Servicio: {self.nombre} | Tipo: {self._tipo_equipo} | Precio base: ${self._precio_base}"
+        return f"💻 Servicio: {self._nombre} | Tipo: {self.__tipo_equipo} | Precio base: ${self._precio_base}"
 
 
 class AsesoriaEspecializada(ServicioBase):
     """Servicio 3: Asesoría profesional especializada"""
-    def _init_(self, id_servicio, nombre, precio_base, especialista: str):
-        super()._init_(id_servicio, nombre, precio_base)
+    def __init__(self, id_servicio, nombre, precio_base, especialista: str):
+        super().__init__(id_servicio, nombre, precio_base)
         self.__especialista = especialista
 
     # ---------------------------
@@ -223,7 +223,7 @@ class AsesoriaEspecializada(ServicioBase):
         return round(costo, 2)
 
     def describir(self) -> str:
-        return f"👨‍🏫 Servicio: {self.nombre} | Especialista: {self._especialista} | Precio base: ${self._precio_base}"
+        return f"👨‍🏫 Servicio: {self._nombre} | Especialista: {self.__especialista} | Precio base: ${self._precio_base}"
 
 # ==================================================
 # 6. CLASE RESERVA (LÓGICA DE NEGOCIO)
@@ -233,7 +233,7 @@ class Reserva:
     """Gestiona todo el ciclo de vida de una reserva"""
     ESTADOS_PERMITIDOS = ["PENDIENTE", "CONFIRMADA", "CANCELADA", "FINALIZADA"]
 
-    def _init_(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
+    def __init__(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
                  fecha: datetime, duracion: float):
         # Atributos privados
         self.__id_reserva = id_reserva.strip()
@@ -267,7 +267,7 @@ class Reserva:
         """Confirma, calcula precio y marca servicio como ocupado"""
         if self.__estado != "PENDIENTE":
             raise OperacionNoPermitidaError(f"No se puede confirmar en estado: {self.__estado}")
-        self._costo_final = self._servicio.calcular_costo(**parametros_calculo)
+        self.__costo_final = self.__servicio.calcular_costo(**parametros_calculo)
         self.__estado = "CONFIRMADA"
         self.__servicio.cambiar_estado(False)
         logging.info(f"Reserva {self.__id_reserva} CONFIRMADA")
@@ -279,5 +279,189 @@ class Reserva:
         self.__estado = "CANCELADA"
         self.__servicio.cambiar_estado(True)
         logging.info(f"Reserva {self.__id_reserva} CANCELADA")
+    
+    def __str__(self):
+        return f"Reserva {self.__id_reserva} | Estado: {self.__estado}"
 
+<<<<<<< HEAD
     def
+=======
+# ==================================================
+# PRUEBAS DEL SISTEMA - SIMULACIÓN DE OPERACIONES
+# ==================================================
+# ==================================================
+# Las siguientes pruebas permiten verificar:
+# - Validación de clientes
+# - Creación de servicios
+# - Manejo de reservas
+# - Control de excepciones
+# - Registro de errores en logs
+# ==================================================
+if __name__ == "__main__":
+
+    print("===== INICIO DE PRUEBAS DEL SISTEMA =====")
+
+    # --------------------------------------------------
+    # OPERACIÓN 1 - Cliente válido
+    # --------------------------------------------------
+    try:
+        cliente1 = Cliente(
+            "C001",
+            "Sebastian",
+            "sebastian@gmail.com",
+            "+573001112233"
+        )
+
+        print(cliente1)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 2 - Cliente inválido
+    # --------------------------------------------------
+    try:
+        cliente2 = Cliente(
+            "1",
+            "A",
+            "correo_invalido",
+            "123"
+        )
+        print(cliente2)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 3 - Crear servicio de sala
+    # --------------------------------------------------
+    try:
+        sala1 = ReservaSala(
+            "S001",
+            "Sala Principal",
+            100000,
+            20
+        )
+
+        print(sala1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 4 - Crear alquiler de equipo
+    # --------------------------------------------------
+    try:
+        equipo1 = AlquilerEquipo(
+            "E001",
+            "Laptop Gamer",
+            80000,
+            "Computador"
+        )
+
+        print(equipo1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 5 - Crear asesoría especializada
+    # --------------------------------------------------
+    try:
+        asesoria1 = AsesoriaEspecializada(
+            "A001",
+            "Asesoría Python",
+            120000,
+            "Ingeniero de Sistemas"
+        )
+
+        print(asesoria1.describir())
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 6 - Reserva válida
+    # --------------------------------------------------
+    try:
+        reserva1 = Reserva(
+            "R001",
+            cliente1,
+            sala1,
+            datetime(2026, 6, 20, 10, 0),
+            2
+        )
+
+        reserva1.confirmar(horas=2)
+
+        print(reserva1)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 7 - Reserva con fecha inválida
+    # --------------------------------------------------
+    try:
+        reserva2 = Reserva(
+            "R002",
+            cliente1,
+            sala1,
+            datetime(2020, 1, 1, 10, 0),
+            2
+        )
+
+        print(reserva2)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 8 - Cálculo inválido
+    # --------------------------------------------------
+    try:
+        costo = sala1.calcular_costo(horas=-5)
+        print(costo)
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 9 - Cancelar reserva
+    # --------------------------------------------------
+    try:
+        reserva1.cancelar()
+        print("Reserva cancelada correctamente")
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    # --------------------------------------------------
+    # OPERACIÓN 10 - Error controlado con finally
+    # --------------------------------------------------
+    try:
+        cliente3 = Cliente(
+            "",
+            "",
+            "malcorreo",
+            "abc"
+        )
+
+    except ErrorSistema as e:
+        logging.error(e)
+        print(e)
+
+    finally:
+        print("Finalización de operación con control de errores")
+
+    print("===== FIN DE PRUEBAS DEL SISTEMA =====")
+>>>>>>> 4a464ed00639660a6b6f525b2dd20b1cda579b83
