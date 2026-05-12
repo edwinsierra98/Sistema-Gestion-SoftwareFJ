@@ -153,7 +153,7 @@ class Cliente(EntidadBase):
     def validar_datos(self) -> bool:
         """Reglas estrictas: longitud mínima, formato correo, teléfono"""
         if len(self.__id_cliente) < 3: return False
-        if len(self.__nombre) < 2: return False
+        if len(self.__nombre) < 2: return Fals
         if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', self.__correo): return False
         if not re.match(r'^\+?\d{7,15}$', self.__telefono): return False
         return True
@@ -233,7 +233,7 @@ class Reserva:
     """Gestiona todo el ciclo de vida de una reserva"""
     ESTADOS_PERMITIDOS = ["PENDIENTE", "CONFIRMADA", "CANCELADA", "FINALIZADA"]
 
-    def _init_(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
+    def (self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
                  fecha: datetime, duracion: float):
         # Atributos privados
         self.__id_reserva = id_reserva.strip()
@@ -245,7 +245,7 @@ class Reserva:
         self.__costo_final = 0.0
 
         # Validaciones al crear
-        if not self.__validar_datos_internos():
+    
             raise ReservaInvalidaError("Datos inconsistentes o valores no permitidos")
 
         if not self.__servicio.verificar_disponibilidad():
