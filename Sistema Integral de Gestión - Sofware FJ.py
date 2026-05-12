@@ -233,7 +233,7 @@ class Reserva:
     """Gestiona todo el ciclo de vida de una reserva"""
     ESTADOS_PERMITIDOS = ["PENDIENTE", "CONFIRMADA", "CANCELADA", "FINALIZADA"]
 
-    def (self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
+    def _init_(self, id_reserva: str, cliente: Cliente, servicio: ServicioBase,
                  fecha: datetime, duracion: float):
         # Atributos privados
         self.__id_reserva = id_reserva.strip()
@@ -245,7 +245,7 @@ class Reserva:
         self.__costo_final = 0.0
 
         # Validaciones al crear
-    
+        if not self.__validar_datos_internos():
             raise ReservaInvalidaError("Datos inconsistentes o valores no permitidos")
 
         if not self.__servicio.verificar_disponibilidad():
