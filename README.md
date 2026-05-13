@@ -13,7 +13,7 @@ Desarrollar un sistema estable, robusto y con manejo adecuado de errores, según
 ## 👥 INTEGRANTES
 1. Edwin Yecid Sierra Chaparro
 2. Jaider Sebastián Sotaquira Ojeda
-3. Danilo Pinzo Camacho
+3. Danilo Pinzon Camacho
 
 ## 📄 ARCHIVOS EN EL REPOSITORIO
 - proyecto_github.py → Código fuente completo y funcional
